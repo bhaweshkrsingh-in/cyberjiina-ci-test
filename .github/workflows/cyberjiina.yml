@@ -56,9 +56,12 @@ jobs:
 
       - name: Scan
         id: scan
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            SCOPE="--scope diff --diff-base origin/${{ github.base_ref }}"
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            SCOPE="--scope diff --diff-base origin/$BASE_REF"
           else
             SCOPE="--scope full"
           fi
